@@ -6,6 +6,7 @@ Release:	1
 License:	Apache
 Group:		Development/Languages/Java
 Source0:	http://jakarta.apache.org/builds/jakarta-commons/release/commons-dbcp/v%{version}/commons-dbcp-%{version}-src.tar.gz
+# Source0-md5:	85305821547f060fb6090f022c33e5f9
 URL:		http://jakarta.apache.org/
 BuildRequires:	jakarta-ant
 BuildRequires:	jakarta-commons-pool
