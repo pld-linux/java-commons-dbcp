@@ -9,10 +9,10 @@ Source0:	http://www.apache.org/dist/jakarta/commons/dbcp/source/commons-dbcp-%{v
 # Source0-md5:	b7336a1d34ea0e8e9c39b67af510c46d
 URL:		http://jakarta.apache.org/
 BuildRequires:	jakarta-ant
-BuildRequires:	jakarta-commons-pool
+BuildRequires:	jakarta-commons-pool >= 1.2
 BuildRequires:	jdk >= 1.2
 Requires:	jakarta-commons-collections
-Requires:	jakarta-commons-pool
+Requires:	jakarta-commons-pool >= 1.2
 Requires:	jre >= 1.2
 BuildArch:	noarch
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
