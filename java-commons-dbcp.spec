@@ -56,6 +56,9 @@ Dokumentacja do Jakarta Commons DBCP.
 %setup -q -n commons-dbcp-%{version}-src
 
 %build
+cat << EOF > build.properties
+commons-pool.jar=%{_javalibdir}/commons-pool.jar
+EOF
 touch LICENSE
 cp build.xml build.xml.org
 sed -e 's#../LICENSE#LICENSE#g' build.xml.org > build.xml
