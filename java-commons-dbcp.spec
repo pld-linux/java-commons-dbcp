@@ -39,7 +39,7 @@ Obs³ugiwane s± nastêpuj±ce w³asno¶ci:
    org.apache.commons.pool.ObjectPool,
  - obs³uga kontroli poprawno¶ci, przedawnienia po³±czeñ itp.,
  - obs³uga zarz±dzania PreparedStatement,
- - konfiguracja w XML.
+ - konfiguracja w XML-u.
 
 %package doc
 Summary:	Jakarta Commons DBCP
