@@ -8,6 +8,7 @@ Source0:	http://jakarta.apache.org/builds/jakarta-commons/release/commons-dbcp/v
 URL:		http://jakarta.apache.org/
 Requires:	jre
 BuildRequires:	jakarta-ant
+BuildRequires:	jakarta-commons-pool
 BuildArch:	noarch
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
