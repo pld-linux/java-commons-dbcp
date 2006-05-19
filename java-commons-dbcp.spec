@@ -8,7 +8,7 @@ Group:		Development/Languages/Java
 Source0:	http://www.apache.org/dist/jakarta/commons/dbcp/source/commons-dbcp-%{version}-src.tar.gz
 # Source0-md5:	b7336a1d34ea0e8e9c39b67af510c46d
 URL:		http://jakarta.apache.org/commons/dbcp/
-BuildRequires:	jakarta-ant
+BuildRequires:	ant
 BuildRequires:	jakarta-commons-pool >= 1.2
 BuildRequires:	jdk >= 1.2
 Requires:	jakarta-commons-collections
