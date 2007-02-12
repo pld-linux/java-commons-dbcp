@@ -1,5 +1,5 @@
 Summary:	Jakarta Commons DBCP - database connection pooling
-Summary(pl):	Jakarta Commons DBCP - zarz±dzanie po³±czeniem z baz± danych
+Summary(pl.UTF-8):   Jakarta Commons DBCP - zarzÄ…dzanie poÅ‚Ä…czeniem z bazÄ… danych
 Name:		jakarta-commons-dbcp
 Version:	1.2.1
 Release:	1
@@ -30,26 +30,26 @@ following features are supported:
  - Support for PreparedStatement pooling,
  - XML configuration.
 
-%description -l pl
-Pakiet DBCP dostarcza us³ugi gospodaruj±ce po³±czeniami z baz± danych.
-Obs³ugiwane s± nastêpuj±ce w³asno¶ci:
+%description -l pl.UTF-8
+Pakiet DBCP dostarcza usÅ‚ugi gospodarujÄ…ce poÅ‚Ä…czeniami z bazÄ… danych.
+ObsÅ‚ugiwane sÄ… nastÄ™pujÄ…ce wÅ‚asnoÅ›ci:
  - interfejsy DataSource i Driver,
- - obs³uga dowolnych ¼róde³ dla podlegaj±cych im po³±czeñ,
+ - obsÅ‚uga dowolnych ÅºrÃ³deÅ‚ dla podlegajÄ…cych im poÅ‚Ä…czeÅ„,
  - integracja z dowolnymi implementacjami
    org.apache.commons.pool.ObjectPool,
- - obs³uga kontroli poprawno¶ci, przedawnienia po³±czeñ itp.,
- - obs³uga zarz±dzania PreparedStatement,
+ - obsÅ‚uga kontroli poprawnoÅ›ci, przedawnienia poÅ‚Ä…czeÅ„ itp.,
+ - obsÅ‚uga zarzÄ…dzania PreparedStatement,
  - konfiguracja w XML-u.
 
 %package doc
 Summary:	Jakarta Commons DBCP
-Summary(pl):	Dokumentacja do Jakarta Commons DBCP
+Summary(pl.UTF-8):   Dokumentacja do Jakarta Commons DBCP
 Group:		Development/Languages/Java
 
 %description doc
 Jakarta Commons DBCP.
 
-%description doc -l pl
+%description doc -l pl.UTF-8
 Dokumentacja do Jakarta Commons DBCP.
 
 %prep
