@@ -1,5 +1,5 @@
 Summary:	Jakarta Commons DBCP - database connection pooling
-Summary(pl.UTF-8):   Jakarta Commons DBCP - zarządzanie połączeniem z bazą danych
+Summary(pl.UTF-8):	Jakarta Commons DBCP - zarządzanie połączeniem z bazą danych
 Name:		jakarta-commons-dbcp
 Version:	1.2.1
 Release:	1
@@ -43,7 +43,7 @@ Obsługiwane są następujące własności:
 
 %package doc
 Summary:	Jakarta Commons DBCP
-Summary(pl.UTF-8):   Dokumentacja do Jakarta Commons DBCP
+Summary(pl.UTF-8):	Dokumentacja do Jakarta Commons DBCP
 Group:		Development/Languages/Java
 
 %description doc
