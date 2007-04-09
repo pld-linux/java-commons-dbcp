@@ -9,15 +9,16 @@ Source0:	http://www.apache.org/dist/jakarta/commons/dbcp/source/commons-dbcp-%{v
 # Source0-md5:	b7336a1d34ea0e8e9c39b67af510c46d
 URL:		http://jakarta.apache.org/commons/dbcp/
 BuildRequires:	ant
+BuildRequires:	jakarta-commons-collections
 BuildRequires:	jakarta-commons-pool >= 1.2
 BuildRequires:	jdk >= 1.2
+BuildRequires:	jpackage-utils
+BuildRequires:	rpmbuild(macros) >= 1.300
 Requires:	jakarta-commons-collections
 Requires:	jakarta-commons-pool >= 1.2
 Requires:	jre >= 1.2
 BuildArch:	noarch
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
-
-%define		_javalibdir	%{_datadir}/java
 
 %description
 The DBCP package provides database connection pooling services. The
@@ -41,40 +42,57 @@ Obsługiwane są następujące własności:
  - obsługa zarządzania PreparedStatement,
  - konfiguracja w XML-u.
 
-%package doc
+%package javadoc
 Summary:	Jakarta Commons DBCP
 Summary(pl.UTF-8):	Dokumentacja do Jakarta Commons DBCP
-Group:		Development/Languages/Java
+Group:		Documentation
+Requires:	jpackage-utils
+Obsoletes:	jakarta-commons-dbcp-doc
 
-%description doc
+%description javadoc
 Jakarta Commons DBCP.
 
-%description doc -l pl.UTF-8
+%description javadoc -l pl.UTF-8
 Dokumentacja do Jakarta Commons DBCP.
 
 %prep
 %setup -q -n commons-dbcp-%{version}
 
 %build
-cat << EOF > build.properties
-commons-pool.jar=%{_javalibdir}/commons-pool.jar
-EOF
-ant dist
+required_jars="commons-pool commons-collections"
+export CLASSPATH=$(/usr/bin/build-classpath $required_jars)
+%ant dist
 
 %install
 rm -rf $RPM_BUILD_ROOT
-install -d $RPM_BUILD_ROOT%{_javalibdir}
+install -d $RPM_BUILD_ROOT%{_javadir}
+for a in dist/*.jar; do
+	jar=${a##*/}
+	cp -a dist/$jar $RPM_BUILD_ROOT%{_javadir}/${jar%%.jar}-%{version}.jar
+	ln -s ${jar%%.jar}-%{version}.jar $RPM_BUILD_ROOT%{_javadir}/$jar
+done
 
-install dist/*.jar $RPM_BUILD_ROOT%{_javalibdir}
+# javadoc
+install -d $RPM_BUILD_ROOT%{_javadocdir}/%{name}-%{version}
+cp -pr dist/docs/* $RPM_BUILD_ROOT%{_javadocdir}/%{name}-%{version}
 
 %clean
 rm -rf $RPM_BUILD_ROOT
 
+%post javadoc
+rm -f %{_javadocdir}/%{name}
+ln -s %{name}-%{version} %{_javadocdir}/%{name}
+
+%postun javadoc
+if [ "$1" = "0" ]; then
+	rm -f %{_javadocdir}/%{name}
+fi
+
 %files
 %defattr(644,root,root,755)
 %doc *.txt
-%{_javalibdir}/*.jar
+%{_javadir}/*.jar
 
-%files doc
+%files javadoc
 %defattr(644,root,root,755)
-%doc dist/docs
+%{_javadocdir}/%{name}-%{version}
