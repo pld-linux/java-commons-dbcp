@@ -3,7 +3,7 @@ Summary:	Jakarta Commons DBCP - database connection pooling
 Summary(pl.UTF-8):	Jakarta Commons DBCP - zarządzanie połączeniem z bazą danych
 Name:		jakarta-commons-dbcp
 Version:	1.2.1
-Release:	1.1
+Release:	1.2
 License:	Apache
 Group:		Development/Languages/Java
 Source0:	http://www.apache.org/dist/jakarta/commons/dbcp/source/commons-dbcp-%{version}-src.tar.gz
@@ -89,7 +89,7 @@ cp -pr dist/docs/api/* $RPM_BUILD_ROOT%{_javadocdir}/%{name}-%{version}
 
 # source code
 install -d $RPM_BUILD_ROOT%{_prefix}/src/%{name}-%{version}
-cp -a src/* $RPM_BUILD_ROOT%{_prefix}/src/%{name}-%{version}
+cp -a src $RPM_BUILD_ROOT%{_prefix}/src/%{name}-%{version}
 
 %clean
 rm -rf $RPM_BUILD_ROOT
