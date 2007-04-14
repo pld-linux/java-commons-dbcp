@@ -59,12 +59,16 @@ Dokumentacja do Jakarta Commons DBCP.
 
 %package source
 Summary:	Jakarta Commons DBCP source code
+Summary(pl.UTF-8):	Kod źródłowy Jakarta Commons DBCP
 Group:		Development/Languages/Java
 AutoReq:	no
 AutoProv:	no
 
 %description source
 Jakarta Commons DBCP source code.
+
+%description source -l pl.UTF-8
+Kod źródłowy Jakarta Commons DBCP.
 
 %prep
 %setup -q -n commons-dbcp-%{version}
