@@ -1,3 +1,5 @@
+# TODO
+# - use ant conditions (replace JDBC_4_ANT_KEY_BEGIN) instead of the code in prep
 %include	/usr/lib/rpm/macros.java
 Summary:	Jakarta Commons DBCP - database connection pooling
 Summary(pl.UTF-8):	Jakarta Commons DBCP - zarządzanie połączeniem z bazą danych
