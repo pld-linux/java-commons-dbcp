@@ -1,17 +1,28 @@
 # NOTE
 # - need jdk 1.5 due java.sql.Wrapper abstract issue
+#
+# Conditional build:
+%bcond_with	binary		# use binary tarball
+
+%define	java_version %(IFS=.; set -- $(java -fullversion 2>&1 | grep -o '".*"' | xargs); echo "$1.$2")
+%if "%{java_version}" >= "1.6"
+%define		with_binary	1
+%endif
+#
 %include	/usr/lib/rpm/macros.java
 Summary:	Jakarta Commons DBCP - database connection pooling
 Summary(pl.UTF-8):	Jakarta Commons DBCP - zarządzanie połączeniem z bazą danych
 Name:		jakarta-commons-dbcp
-Version:	1.2.1
-Release:	2
+Version:	1.2.2
+Release:	0.1
 License:	Apache
 Group:		Development/Languages/Java
-Source0:	http://www.apache.org/dist/jakarta/commons/dbcp/source/commons-dbcp-%{version}-src.tar.gz
-# Source0-md5:	b7336a1d34ea0e8e9c39b67af510c46d
-Source1:	%{name}-tomcat5-build.xml
-URL:		http://jakarta.apache.org/commons/dbcp/
+Source0:	http://www.apache.org/dist/commons/dbcp/source/commons-dbcp-%{version}-src.tar.gz
+# Source0-md5:	57bad7d2abfaa175c743521caccdbd8f
+Source1:	http://www.apache.org/dist/commons/dbcp/binaries/commons-dbcp-%{version}.tar.gz
+# Source1-md5:	6957d443325f08f07bfd1d2142a59799
+Source2:	%{name}-tomcat5-build.xml
+URL:		http://commons.apache.org/dbcp/
 BuildRequires:	ant
 BuildRequires:	jakarta-commons-collections
 BuildRequires:	jakarta-commons-collections-tomcat5
@@ -71,10 +82,14 @@ Obsoletes:	jakarta-commons-dbcp-source
 DBCP dependency for Tomcat5
 
 %prep
-%setup -q -n commons-dbcp-%{version}
-cp %{SOURCE1} tomcat5-build.xml
+%setup -q -n commons-dbcp-%{version}-src
+%if %{without binary}
+cp %{SOURCE2} tomcat5-build.xml
+%{__sed} -i -e 's,\r$,,' build.xml
+%endif
 
 %build
+%if %{without binary}
 required_jars="commons-pool commons-collections"
 export CLASSPATH=$(build-classpath $required_jars)
 %ant dist
@@ -82,13 +97,18 @@ export CLASSPATH=$(build-classpath $required_jars)
 required_jars="jdbc-stdext xercesImpl commons-collections-tomcat5 commons-pool-tomcat5"
 export CLASSPATH=$(build-classpath $required_jars)
 %ant -f tomcat5-build.xml
+%endif
 
 %install
 rm -rf $RPM_BUILD_ROOT
 install -d $RPM_BUILD_ROOT%{_javadir}
 # jars
-install dist/commons-dbcp.jar $RPM_BUILD_ROOT%{_javadir}/commons-dbcp-%{version}.jar
 ln -sf commons-dbcp-%{version}.jar $RPM_BUILD_ROOT%{_javadir}/commons-dbcp.jar
+%if %{with binary}
+install commons-dbcp-%{version}.jar $RPM_BUILD_ROOT%{_javadir}/commons-dbcp-%{version}.jar
+
+%else
+install dist/commons-dbcp.jar $RPM_BUILD_ROOT%{_javadir}/commons-dbcp-%{version}.jar
 
 install dbcp-tomcat5/commons-dbcp-tomcat5.jar $RPM_BUILD_ROOT%{_javadir}/%{name}-tomcat5-%{version}.jar
 ln -sf %{name}-tomcat5-%{version}.jar $RPM_BUILD_ROOT%{_javadir}/%{name}-tomcat5.jar
@@ -97,6 +117,7 @@ ln -sf %{name}-tomcat5-%{version}.jar $RPM_BUILD_ROOT%{_javadir}/%{name}-tomcat5
 install -d $RPM_BUILD_ROOT%{_javadocdir}/%{name}-%{version}
 cp -a dist/docs/api/* $RPM_BUILD_ROOT%{_javadocdir}/%{name}-%{version}
 ln -s %{name}-%{version} $RPM_BUILD_ROOT%{_javadocdir}/%{name} # ghost symlink
+%endif
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -110,6 +131,7 @@ ln -nfs %{name}-%{version} %{_javadocdir}/%{name}
 %{_javadir}/commons-dbcp.jar
 %{_javadir}/commons-dbcp-%{version}.jar
 
+%if %{without binary}
 %files tomcat5
 %defattr(644,root,root,755)
 %{_javadir}/%{name}-tomcat5.jar
@@ -119,3 +141,4 @@ ln -nfs %{name}-%{version} %{_javadocdir}/%{name}
 %defattr(644,root,root,755)
 %{_javadocdir}/%{name}-%{version}
 %ghost %{_javadocdir}/%{name}
+%endif
