@@ -1476,3 +1476,25 @@
      // -------------------------------------------------------------------
      // Properties
  
+--- build.xml~	2007-12-08 00:43:35.725089527 +0200
++++ build.xml	2007-12-08 00:43:58.564094252 +0200
+@@ -70,7 +70,7 @@
+       <property name="javac.optimize" value="false"/>
+       <property name="javac.debug" value="true"/>
+       <property name="javac.deprecation" value="false"/>
+-      <property name="javac.source" value="1.4" />
++      <property name="javac.source" value="1.6" />
+ 
+       <available property="jndi.present" classname="javax.naming.Context"/>
+       <available property="jdbc3.present" classname="java.sql.Savepoint"/>
+--- tomcat5-build.xml~	2007-12-08 00:45:33.279966733 +0200
++++ tomcat5-build.xml	2007-12-08 00:46:25.237702525 +0200
+@@ -8,7 +8,7 @@
+    <!-- Java Options -->
+    <property name="compile.debug" value="true"/>
+    <property name="compile.deprecation" value="false"/>
+-   <property name="compile.source" value="1.4"/>
++   <property name="compile.source" value="1.6"/>
+ 
+    <target name="clean">
+      <delete dir="${tomcat-dbcp.home}"/>
