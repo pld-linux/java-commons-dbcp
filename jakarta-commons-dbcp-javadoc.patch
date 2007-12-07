@@ -1,0 +1,10 @@
+--- commons-dbcp-1.2.2-src/build.xml~	2007-12-08 00:37:57.839813856 +0200
++++ commons-dbcp-1.2.2-src/build.xml	2007-12-08 00:37:59.059760694 +0200
+@@ -116,7 +116,6 @@
+       <mkdir dir="${javadoc.dir}"/>
+       <javadoc packagenames="org.*"
+                sourcepath="${src.java.dir}"
+-               classpath="${classpath}"
+                destdir="${javadoc.dir}"
+                windowtitle="${title}"
+                doctitle="${title}"
