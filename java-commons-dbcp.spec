@@ -1,8 +1,8 @@
 # TODO
 # - use ant conditions (replace JDBC_4_ANT_KEY_BEGIN) instead of the code in prep
 %include	/usr/lib/rpm/macros.java
-Summary:	Jakarta Commons DBCP - database connection pooling
-Summary(pl.UTF-8):	Jakarta Commons DBCP - zarządzanie połączeniem z bazą danych
+Summary:	Commons DBCP - database connection pooling
+Summary(pl.UTF-8):	Commons DBCP - zarządzanie połączeniem z bazą danych
 Name:		jakarta-commons-dbcp
 Version:	1.2.2
 Release:	0.2
@@ -52,25 +52,29 @@ Obsługiwane są następujące własności:
  - konfiguracja w XML-u.
 
 %package javadoc
-Summary:	Jakarta Commons DBCP
-Summary(pl.UTF-8):	Dokumentacja do Jakarta Commons DBCP
+Summary:	Commons DBCP documentation
+Summary(pl.UTF-8):	Dokumentacja do Commons DBCP
 Group:		Documentation
 Requires:	jpackage-utils
 Obsoletes:	jakarta-commons-dbcp-doc
 
 %description javadoc
-Jakarta Commons DBCP.
+Commons DBCP documentation.
 
 %description javadoc -l pl.UTF-8
-Dokumentacja do Jakarta Commons DBCP.
+Dokumentacja do Commons DBCP.
 
 %package tomcat5
-Summary:	DBCP dependency for Tomcat5
+Summary:	Commons DBCP dependency for Tomcat5
+Summary(pl.UTF-8):	Elementy Commons DBCP dla Tomcata 5
 Group:		Development/Languages/Java
 Obsoletes:	jakarta-commons-dbcp-source
 
 %description tomcat5
-DBCP dependency for Tomcat5
+Commons DBCP dependency for Tomcat5.
+
+%description tomcat5 -l pl.UTF-8
+Elementy Commons DBCP dla Tomcata 5.
 
 %prep
 %setup -q -n commons-dbcp-%{version}-src
