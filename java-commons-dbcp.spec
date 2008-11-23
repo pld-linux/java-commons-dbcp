@@ -1,18 +1,22 @@
 # TODO
 # - use ant conditions (replace JDBC_4_ANT_KEY_BEGIN) instead of the code in prep
+#
+# Conditional build:
+%bcond_without	javadoc		# don't build javadoc
+
 %include	/usr/lib/rpm/macros.java
 Summary:	Commons DBCP - database connection pooling
 Summary(pl.UTF-8):	Commons DBCP - zarządzanie połączeniem z bazą danych
-Name:		jakarta-commons-dbcp
+Name:		java-commons-dbcp
 Version:	1.2.2
 Release:	0.2
 License:	Apache
-Group:		Development/Languages/Java
+Group:		Libraries/Java
 Source0:	http://www.apache.org/dist/commons/dbcp/source/commons-dbcp-%{version}-src.tar.gz
 # Source0-md5:	57bad7d2abfaa175c743521caccdbd8f
-Source1:	%{name}-tomcat5-build.xml
-Patch0:		%{name}-bug-191.patch
-Patch1:		%{name}-javadoc.patch
+Source1:	jakarta-commons-dbcp-tomcat5-build.xml
+Patch0:		jakarta-commons-dbcp-bug-191.patch
+Patch1:		jakarta-commons-dbcp-javadoc.patch
 URL:		http://commons.apache.org/dbcp/
 BuildRequires:	ant
 BuildRequires:	jakarta-commons-collections
@@ -25,7 +29,10 @@ BuildRequires:	rpm-javaprov
 BuildRequires:	rpmbuild(macros) >= 1.300
 Requires:	jakarta-commons-collections
 Requires:	jakarta-commons-pool >= 1.2
+Requires:	jpackage-utils
 Requires:	jre >= 1.2
+Provides:	jakarta-commons-dbcp
+Obsoletes:	jakarta-commons-dbcp
 BuildArch:	noarch
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
@@ -106,13 +113,15 @@ ln -sf commons-dbcp-%{version}.jar $RPM_BUILD_ROOT%{_javadir}/commons-dbcp.jar
 
 install dist/commons-dbcp.jar $RPM_BUILD_ROOT%{_javadir}/commons-dbcp-%{version}.jar
 
-install dbcp-tomcat5/commons-dbcp-tomcat5.jar $RPM_BUILD_ROOT%{_javadir}/%{name}-tomcat5-%{version}.jar
-ln -sf %{name}-tomcat5-%{version}.jar $RPM_BUILD_ROOT%{_javadir}/%{name}-tomcat5.jar
+install dbcp-tomcat5/commons-dbcp-tomcat5.jar $RPM_BUILD_ROOT%{_javadir}/commons-dbcp-tomcat5-%{version}.jar
+ln -sf commons-dbcp-tomcat5-%{version}.jar $RPM_BUILD_ROOT%{_javadir}/commons-dbcp-tomcat5.jar
 
 # javadoc
+%if %{with javadoc}
 install -d $RPM_BUILD_ROOT%{_javadocdir}/%{name}-%{version}
 cp -a dist/docs/api/* $RPM_BUILD_ROOT%{_javadocdir}/%{name}-%{version}
 ln -s %{name}-%{version} $RPM_BUILD_ROOT%{_javadocdir}/%{name} # ghost symlink
+%endif
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -128,10 +137,12 @@ ln -nfs %{name}-%{version} %{_javadocdir}/%{name}
 
 %files tomcat5
 %defattr(644,root,root,755)
-%{_javadir}/%{name}-tomcat5.jar
-%{_javadir}/%{name}-tomcat5-%{version}.jar
+%{_javadir}/commons-dbcp-tomcat5.jar
+%{_javadir}/commons-dbcp-tomcat5-%{version}.jar
 
+%if %{with javadoc}
 %files javadoc
 %defattr(644,root,root,755)
 %{_javadocdir}/%{name}-%{version}
 %ghost %{_javadocdir}/%{name}
+%endif
