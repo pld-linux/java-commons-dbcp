@@ -19,16 +19,16 @@ Patch0:		jakarta-commons-dbcp-bug-191.patch
 Patch1:		jakarta-commons-dbcp-javadoc.patch
 URL:		http://commons.apache.org/dbcp/
 BuildRequires:	ant
-BuildRequires:	jakarta-commons-collections
-BuildRequires:	jakarta-commons-collections-tomcat5
-BuildRequires:	jakarta-commons-pool >= 1.2
-BuildRequires:	jakarta-commons-pool-tomcat5
+BuildRequires:	java-commons-collections
+BuildRequires:	java-commons-collections-tomcat5
+BuildRequires:	java-commons-pool >= 1.2
+BuildRequires:	java-commons-pool-tomcat5
 BuildRequires:	jdk >= 1.2
 BuildRequires:	jpackage-utils
 BuildRequires:	rpm-javaprov
 BuildRequires:	rpmbuild(macros) >= 1.300
-Requires:	jakarta-commons-collections
-Requires:	jakarta-commons-pool >= 1.2
+Requires:	java-commons-collections
+Requires:	java-commons-pool >= 1.2
 Requires:	jpackage-utils
 Requires:	jre >= 1.2
 Provides:	jakarta-commons-dbcp
@@ -63,7 +63,9 @@ Summary:	Commons DBCP documentation
 Summary(pl.UTF-8):	Dokumentacja do Commons DBCP
 Group:		Documentation
 Requires:	jpackage-utils
+Provides:	jakarta-commons-dbcp-javadoc
 Obsoletes:	jakarta-commons-dbcp-doc
+Obsoletes:	jakarta-commons-dbcp-javadoc
 
 %description javadoc
 Commons DBCP documentation.
@@ -75,7 +77,9 @@ Dokumentacja do Commons DBCP.
 Summary:	Commons DBCP dependency for Tomcat5
 Summary(pl.UTF-8):	Elementy Commons DBCP dla Tomcata 5
 Group:		Development/Languages/Java
+Provides:	jakarta-commons-dbcp-tomcat5
 Obsoletes:	jakarta-commons-dbcp-source
+Obsoletes:	jakarta-commons-dbcp-tomcat5
 
 %description tomcat5
 Commons DBCP dependency for Tomcat5.
