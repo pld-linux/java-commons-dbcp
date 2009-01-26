@@ -9,7 +9,7 @@ Summary:	Commons DBCP - database connection pooling
 Summary(pl.UTF-8):	Commons DBCP - zarządzanie połączeniem z bazą danych
 Name:		java-commons-dbcp
 Version:	1.2.2
-Release:	0.2
+Release:	1
 License:	Apache
 Group:		Libraries/Java
 Source0:	http://www.apache.org/dist/commons/dbcp/source/commons-dbcp-%{version}-src.tar.gz
