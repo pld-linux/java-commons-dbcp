@@ -5,11 +5,13 @@
 %bcond_without	javadoc		# don't build javadoc
 
 %include	/usr/lib/rpm/macros.java
+
+%define		srcname	commons-dbcp
 Summary:	Commons DBCP - database connection pooling
 Summary(pl.UTF-8):	Commons DBCP - zarządzanie połączeniem z bazą danych
 Name:		java-commons-dbcp
 Version:	1.2.2
-Release:	1
+Release:	2
 License:	Apache
 Group:		Libraries/Java
 Source0:	http://www.apache.org/dist/commons/dbcp/source/commons-dbcp-%{version}-src.tar.gz
@@ -23,14 +25,14 @@ BuildRequires:	java-commons-collections
 BuildRequires:	java-commons-collections-tomcat5
 BuildRequires:	java-commons-pool >= 1.2
 BuildRequires:	java-commons-pool-tomcat5
-BuildRequires:	jdk >= 1.2
+BuildRequires:	java-gcj-compat-devel
+BuildRequires:	java-xerces
 BuildRequires:	jpackage-utils
 BuildRequires:	rpm-javaprov
 BuildRequires:	rpmbuild(macros) >= 1.300
 Requires:	java-commons-collections
 Requires:	java-commons-pool >= 1.2
 Requires:	jpackage-utils
-Requires:	jre >= 1.2
 Provides:	jakarta-commons-dbcp
 Obsoletes:	jakarta-commons-dbcp
 BuildArch:	noarch
@@ -77,6 +79,7 @@ Dokumentacja do Commons DBCP.
 Summary:	Commons DBCP dependency for Tomcat5
 Summary(pl.UTF-8):	Elementy Commons DBCP dla Tomcata 5
 Group:		Development/Languages/Java
+Requires:	java-xerces
 Provides:	jakarta-commons-dbcp-tomcat5
 Obsoletes:	jakarta-commons-dbcp-source
 Obsoletes:	jakarta-commons-dbcp-tomcat5
@@ -92,39 +95,46 @@ Elementy Commons DBCP dla Tomcata 5.
 cp %{SOURCE1} tomcat5-build.xml
 %{__sed} -i -e 's,\r$,,' build.xml
 
-java_version=$(IFS=.; set -- $(java -fullversion 2>&1 | grep -o '".*"' | xargs); echo "$1.$2")
-if ! awk -vv=$java_version 'BEGIN{exit(v >= 1.6)}'; then # java is at least 1.6
-%patch0 -p0
-fi
+### It makes no sens when built with java-gcj-compat-devel
+# java_version=$(IFS=.; set -- $(java -fullversion 2>&1 | grep -o '".*"' | xargs); echo "$1.$2")
+# if ! awk -vv=$java_version 'BEGIN{exit(v >= 1.6)}'; then # java is at least 1.6
+# %%patch0 -p0
+# fi
 
 %patch1 -p1
 
 %build
 required_jars="commons-pool commons-collections"
 export CLASSPATH=$(build-classpath $required_jars)
-%ant dist
+%ant clean
+%ant -Dbuild.compiler=extJavac build-jar
 
 required_jars="jdbc-stdext xercesImpl commons-collections-tomcat5 commons-pool-tomcat5"
 export CLASSPATH=$(build-classpath $required_jars)
-%ant -f tomcat5-build.xml
+%ant -Dbuild.compiler=extJavac -f tomcat5-build.xml
+
+%if %{with javadoc}
+export SHELL=/bin/sh
+%ant javadoc
+%endif
 
 %install
 rm -rf $RPM_BUILD_ROOT
 install -d $RPM_BUILD_ROOT%{_javadir}
 # jars
-install commons-dbcp-%{version}.jar $RPM_BUILD_ROOT%{_javadir}/commons-dbcp-%{version}.jar
-ln -sf commons-dbcp-%{version}.jar $RPM_BUILD_ROOT%{_javadir}/commons-dbcp.jar
+install %{srcname}-%{version}.jar $RPM_BUILD_ROOT%{_javadir}/%{srcname}-%{version}.jar
+ln -sf %{srcname}-%{version}.jar $RPM_BUILD_ROOT%{_javadir}/%{srcname}.jar
 
-install dist/commons-dbcp.jar $RPM_BUILD_ROOT%{_javadir}/commons-dbcp-%{version}.jar
+install dist/%{srcname}.jar $RPM_BUILD_ROOT%{_javadir}/%{srcname}-%{version}.jar
 
-install dbcp-tomcat5/commons-dbcp-tomcat5.jar $RPM_BUILD_ROOT%{_javadir}/commons-dbcp-tomcat5-%{version}.jar
-ln -sf commons-dbcp-tomcat5-%{version}.jar $RPM_BUILD_ROOT%{_javadir}/commons-dbcp-tomcat5.jar
+install dbcp-tomcat5/%{srcname}-tomcat5.jar $RPM_BUILD_ROOT%{_javadir}/%{srcname}-tomcat5-%{version}.jar
+ln -sf %{srcname}-tomcat5-%{version}.jar $RPM_BUILD_ROOT%{_javadir}/%{srcname}-tomcat5.jar
 
 # javadoc
 %if %{with javadoc}
-install -d $RPM_BUILD_ROOT%{_javadocdir}/%{name}-%{version}
-cp -a dist/docs/api/* $RPM_BUILD_ROOT%{_javadocdir}/%{name}-%{version}
-ln -s %{name}-%{version} $RPM_BUILD_ROOT%{_javadocdir}/%{name} # ghost symlink
+install -d $RPM_BUILD_ROOT%{_javadocdir}/%{srcname}-%{version}
+cp -a dist/docs/api/* $RPM_BUILD_ROOT%{_javadocdir}/%{srcname}-%{version}
+ln -s %{srcname}-%{version} $RPM_BUILD_ROOT%{_javadocdir}/%{srcname} # ghost symlink
 %endif
 
 %clean
@@ -135,7 +145,7 @@ ln -nfs %{name}-%{version} %{_javadocdir}/%{name}
 
 %files
 %defattr(644,root,root,755)
-%doc *.txt
+%doc RELEASE-NOTES.txt
 %{_javadir}/commons-dbcp.jar
 %{_javadir}/commons-dbcp-%{version}.jar
 
@@ -147,6 +157,6 @@ ln -nfs %{name}-%{version} %{_javadocdir}/%{name}
 %if %{with javadoc}
 %files javadoc
 %defattr(644,root,root,755)
-%{_javadocdir}/%{name}-%{version}
-%ghost %{_javadocdir}/%{name}
+%{_javadocdir}/%{srcname}-%{version}
+%ghost %{_javadocdir}/%{srcname}
 %endif
