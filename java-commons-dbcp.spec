@@ -102,12 +102,13 @@ Elementy Commons DBCP dla Tomcata 5.
 cp %{SOURCE1} tomcat5-build.xml
 %{__sed} -i -e 's,\r$,,' build.xml
 
-### It makes no sens when built with java-gcj-compat-devel
-# java_version=$(IFS=.; set -- $(java -fullversion 2>&1 | grep -o '".*"' | xargs); echo "$1.$2")
-# if ! awk -vv=$java_version 'BEGIN{exit(v >= 1.6)}'; then # java is at least 1.6
-# %%patch0 -p0
-# fi
 
+%if %{with java_sun}
+java_version=$(IFS=.; set -- $(java -fullversion 2>&1 | grep -o '".*"' | xargs); echo "$1.$2")
+if ! awk -vv=$java_version 'BEGIN{exit(v >= 1.6)}'; then # java is at least 1.6
+%patch0 -p0
+fi
+%endif
 %patch1 -p1
 
 %build
