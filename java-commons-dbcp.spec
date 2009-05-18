@@ -3,6 +3,11 @@
 #
 # Conditional build:
 %bcond_without	javadoc		# don't build javadoc
+%if "%{pld_release}" == "ti"
+%bcond_without	java_sun	# build with gcj
+%else
+%bcond_with	java_sun	# build with java-sun
+%endif
 
 %include	/usr/lib/rpm/macros.java
 
@@ -12,7 +17,7 @@ Summary(pl.UTF-8):	Commons DBCP - zarządzanie połączeniem z bazą danych
 Name:		java-commons-dbcp
 Version:	1.2.2
 Release:	2
-License:	Apache
+License:	Apache v2.0
 Group:		Libraries/Java
 Source0:	http://www.apache.org/dist/commons/dbcp/source/commons-dbcp-%{version}-src.tar.gz
 # Source0-md5:	57bad7d2abfaa175c743521caccdbd8f
@@ -25,9 +30,11 @@ BuildRequires:	java-commons-collections
 BuildRequires:	java-commons-collections-tomcat5
 BuildRequires:	java-commons-pool >= 1.2
 BuildRequires:	java-commons-pool-tomcat5
-BuildRequires:	java-gcj-compat-devel
+%{!?with_java_sun:BuildRequires:	java-gcj-compat-devel}
+%{?with_java_sun:BuildRequires:	java-sun}
 BuildRequires:	java-xerces
 BuildRequires:	jpackage-utils
+BuildRequires:	rpm >= 4.4.9-56
 BuildRequires:	rpm-javaprov
 BuildRequires:	rpmbuild(macros) >= 1.300
 Requires:	java-commons-collections
@@ -107,16 +114,11 @@ cp %{SOURCE1} tomcat5-build.xml
 required_jars="commons-pool commons-collections"
 export CLASSPATH=$(build-classpath $required_jars)
 %ant clean
-%ant -Dbuild.compiler=extJavac build-jar
+%ant build-jar %{?with_javadoc:javadoc}
 
 required_jars="jdbc-stdext xercesImpl commons-collections-tomcat5 commons-pool-tomcat5"
 export CLASSPATH=$(build-classpath $required_jars)
-%ant -Dbuild.compiler=extJavac -f tomcat5-build.xml
-
-%if %{with javadoc}
-export SHELL=/bin/sh
-%ant javadoc
-%endif
+%ant -f tomcat5-build.xml
 
 %install
 rm -rf $RPM_BUILD_ROOT
