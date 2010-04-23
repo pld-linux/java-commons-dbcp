@@ -3,12 +3,6 @@
 #
 # Conditional build:
 %bcond_without	javadoc		# don't build javadoc
-%if "%{pld_release}" == "ti"
-%bcond_without	java_sun	# build with gcj
-%else
-%bcond_with	java_sun	# build with java-sun
-%endif
-
 %include	/usr/lib/rpm/macros.java
 
 %define		srcname	commons-dbcp
@@ -30,11 +24,9 @@ BuildRequires:	java-commons-collections
 BuildRequires:	java-commons-collections-tomcat5
 BuildRequires:	java-commons-pool >= 1.2
 BuildRequires:	java-commons-pool-tomcat5
-%{!?with_java_sun:BuildRequires:	java-gcj-compat-devel}
-%{?with_java_sun:BuildRequires:	java-sun}
+BuildRequires:	jdk
 BuildRequires:	java-xerces
 BuildRequires:	jpackage-utils
-BuildRequires:	rpm >= 4.4.9-56
 BuildRequires:	rpm-javaprov
 BuildRequires:	rpmbuild(macros) >= 1.300
 Requires:	java-commons-collections
