@@ -3,14 +3,14 @@
 #
 # Conditional build:
 %bcond_without	javadoc		# don't build javadoc
-%include	/usr/lib/rpm/macros.java
 
 %define		srcname	commons-dbcp
+%include	/usr/lib/rpm/macros.java
 Summary:	Commons DBCP - database connection pooling
 Summary(pl.UTF-8):	Commons DBCP - zarządzanie połączeniem z bazą danych
 Name:		java-commons-dbcp
 Version:	1.2.2
-Release:	2
+Release:	3
 License:	Apache v2.0
 Group:		Libraries/Java
 Source0:	http://www.apache.org/dist/commons/dbcp/source/commons-dbcp-%{version}-src.tar.gz
@@ -20,12 +20,12 @@ Patch0:		jakarta-commons-dbcp-bug-191.patch
 Patch1:		jakarta-commons-dbcp-javadoc.patch
 URL:		http://commons.apache.org/dbcp/
 BuildRequires:	ant
+BuildRequires:	java(jaxp_parser_impl)
 BuildRequires:	java-commons-collections
 BuildRequires:	java-commons-collections-tomcat5
 BuildRequires:	java-commons-pool >= 1.2
 BuildRequires:	java-commons-pool-tomcat5
 BuildRequires:	jdk
-BuildRequires:	java-xerces
 BuildRequires:	jpackage-utils
 BuildRequires:	rpm-javaprov
 BuildRequires:	rpmbuild(macros) >= 1.300
@@ -78,7 +78,7 @@ Dokumentacja do Commons DBCP.
 Summary:	Commons DBCP dependency for Tomcat5
 Summary(pl.UTF-8):	Elementy Commons DBCP dla Tomcata 5
 Group:		Development/Languages/Java
-Requires:	java-xerces
+Requires:	java(jaxp_parser_impl)
 Provides:	jakarta-commons-dbcp-tomcat5
 Obsoletes:	jakarta-commons-dbcp-source
 Obsoletes:	jakarta-commons-dbcp-tomcat5
