@@ -1,0 +1,5 @@
+- use java-gcj-compat-devel
+- BR: java-xerces, tomcat5 subpackage R: java-xerces
+- correct dir for javadoc
+- install less %doc
+- rel 2
