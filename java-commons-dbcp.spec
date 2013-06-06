@@ -9,12 +9,12 @@
 Summary:	Commons DBCP - database connection pooling
 Summary(pl.UTF-8):	Commons DBCP - zarządzanie połączeniem z bazą danych
 Name:		java-commons-dbcp
-Version:	1.2.2
-Release:	3
+Version:	1.4
+Release:	1
 License:	Apache v2.0
 Group:		Libraries/Java
 Source0:	http://www.apache.org/dist/commons/dbcp/source/commons-dbcp-%{version}-src.tar.gz
-# Source0-md5:	57bad7d2abfaa175c743521caccdbd8f
+# Source0-md5:	e9f599c99baefeeb0e192030c5d19d5d
 Source1:	jakarta-commons-dbcp-tomcat5-build.xml
 Patch0:		jakarta-commons-dbcp-bug-191.patch
 Patch1:		jakarta-commons-dbcp-javadoc.patch
@@ -104,12 +104,12 @@ fi
 %patch1 -p1
 
 %build
-required_jars="commons-pool commons-collections"
+required_jars="commons-pool commons-collections libgcj"
 export CLASSPATH=$(build-classpath $required_jars)
 %ant clean
 %ant build-jar %{?with_javadoc:javadoc}
 
-required_jars="jdbc-stdext xercesImpl commons-collections-tomcat5 commons-pool-tomcat5"
+required_jars="jdbc-stdext xercesImpl commons-collections-tomcat5 commons-pool-tomcat5 libgcj"
 export CLASSPATH=$(build-classpath $required_jars)
 %ant -f tomcat5-build.xml
 
@@ -117,10 +117,8 @@ export CLASSPATH=$(build-classpath $required_jars)
 rm -rf $RPM_BUILD_ROOT
 install -d $RPM_BUILD_ROOT%{_javadir}
 # jars
-install %{srcname}-%{version}.jar $RPM_BUILD_ROOT%{_javadir}/%{srcname}-%{version}.jar
-ln -sf %{srcname}-%{version}.jar $RPM_BUILD_ROOT%{_javadir}/%{srcname}.jar
-
 install dist/%{srcname}.jar $RPM_BUILD_ROOT%{_javadir}/%{srcname}-%{version}.jar
+ln -sf %{srcname}-%{version}.jar $RPM_BUILD_ROOT%{_javadir}/%{srcname}.jar
 
 install dbcp-tomcat5/%{srcname}-tomcat5.jar $RPM_BUILD_ROOT%{_javadir}/%{srcname}-tomcat5-%{version}.jar
 ln -sf %{srcname}-tomcat5-%{version}.jar $RPM_BUILD_ROOT%{_javadir}/%{srcname}-tomcat5.jar
