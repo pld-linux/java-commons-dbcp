@@ -5,7 +5,6 @@
 %bcond_without	javadoc		# don't build javadoc
 
 %define		srcname	commons-dbcp
-%include	/usr/lib/rpm/macros.java
 Summary:	Commons DBCP - database connection pooling
 Summary(pl.UTF-8):	Commons DBCP - zarządzanie połączeniem z bazą danych
 Name:		java-commons-dbcp
